@@ -19,7 +19,7 @@ public class Gameplay : MonoBehaviour
     public float maxTimeTimer;
 
     private int citizensRecruited;
-    public Text ñitizensAmountText;
+    public Text citizensAmountText;
     private int citizensAmount = 0;
     public Image citizensDelayLine;
     public Button addCitizensButton;
@@ -111,7 +111,7 @@ public class Gameplay : MonoBehaviour
 
     private void attack()
     {
-        random = Random.Range(3, 7);
+        random = Random.Range(3, 6);
         if (currentTimeTimer == maxTimeTimer)
         {
             if (wavesNoAttack == 0)
@@ -134,7 +134,7 @@ public class Gameplay : MonoBehaviour
                     audio.clip = attackSound;
                     audio.Play();
                 }
-                enemyAmount = System.Convert.ToInt32(Mathf.Round(enemyAmount * 1.2f + random));
+                enemyAmount = System.Convert.ToInt32(Mathf.Round(enemyAmount * 1.15f + random));
                 wave++;
                 amountWavesText.text = wave.ToString();
             }
@@ -193,12 +193,12 @@ public class Gameplay : MonoBehaviour
 
     private void foodTick()
     {
-        foodProfit = citizensAmount * 4 - soldiersAmount * 3;
+        foodProfit = citizensAmount * 4 - soldiersAmount * 6;
         if (currentTimeTimer == maxTimeTimer)
         {
             foodAmount += foodProfit;
-            totalFood += foodAmount;
-            totalFoodEaten += soldiersAmount * 3;
+            totalFood += citizensAmount * 4;
+            totalFoodEaten += soldiersAmount * 6;
         }
     }
 
@@ -232,7 +232,7 @@ public class Gameplay : MonoBehaviour
         enemyAmountText.text = enemyAmount.ToString();
         foodAmountText.text = foodAmount.ToString();
         foodProfitText.text = foodProfit.ToString();
-        ñitizensAmountText.text = citizensAmount.ToString();
+        citizensAmountText.text = citizensAmount.ToString();
         soldiersAmountText.text = soldiersAmount.ToString();
     }
 
@@ -264,6 +264,8 @@ public class Gameplay : MonoBehaviour
 
     private void resultDefeatGame()
     {
+        if (wave <= 1)
+            wave += 1;
         gameoverPanel.SetActive(true);
         resultGameText.text = "Ïîðàæåíèå";
         statisticText.text = $"{wave - 2}\n{enemiesDefeated}\n{soldiersRecruited}\n{citizensRecruited}\n{totalFood}\n{totalFoodEaten}";
@@ -273,7 +275,7 @@ public class Gameplay : MonoBehaviour
     {
         gameoverPanel.SetActive(true);
         resultGameText.text = "Ïîáåäà";
-        statisticText.text = $"{wave - 2}\n{enemiesDefeated}\n{soldiersRecruited}\n{citizensRecruited}\n{totalFood}\n{totalFoodEaten}";
+        statisticText.text = $"{wave - 1}\n{enemiesDefeated}\n{soldiersRecruited}\n{citizensRecruited}\n{totalFood}\n{totalFoodEaten}";
     }
 
     private void checkBoostButtonTick()
